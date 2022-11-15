@@ -1,0 +1,33 @@
+Sub ExportToNotepad()
+Dim wsData As Variant 'capture the filename'
+Dim myFileName As String
+Dim FN As Integer 'filename as integer'
+Dim p As Integer, q As Integer
+Dim path As String
+Dim myString As String
+Dim lastrow As Long, lastcolumn As Long
+
+lastrow = Sheets("Switches").Range("A" & Rows.Count).End(xlUp).Row
+lastcolumn = ActiveSheet.Cells(1, Columns.Count).End(clToLeft).Column
+path = "file path"
+
+For p = 1 To lastcolumn
+wsData = ActiveSheet.Cells(1, p).Value
+If wsData = "" Then Exit Sub
+myFileName = wsData
+myFileName = myFileName & ".txt"
+MsgBox myFileName
+
+For q = 2 To lastrow
+myString = myString & " " & Cells(q, p)
+
+
+FN = FreeFile
+Open myFileName For Output As #FN
+Print #FN, myString
+Close #FN
+Next q
+myString = ""
+Next p
+
+End Sub
